@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Dice Roller</string>
+    <string name="roll">Roll</string>
+    <string-array name="dice_options">
+        <item>4-sided</item>
+        <item>6-sided</item>
+        <item>8-sided</item>
+        <item>10-sided</item>
+        <item>12-sided</item>
+        <item>20-sided</item>
+    </string-array>
+    <string name="toggle_night_mode">Night Mode</string>
+</resources>
