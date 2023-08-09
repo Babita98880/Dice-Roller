@@ -35,18 +35,35 @@ class MainActivity : AppCompatActivity() {
         val nightMode = sharedPreferences.getInt("night_mode", AppCompatDelegate.MODE_NIGHT_NO)
         AppCompatDelegate.setDefaultNightMode(nightMode)
 
-
         // Initialize the spinner
         val diceOptions = resources.getStringArray(R.array.dice_options)
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, diceOptions)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         diceSpinner.adapter = adapter
 
+        // Retrieve the stored result values from SharedPreferences
+        val storedResult1 = sharedPreferences.getInt("result_value_1", -1)
+        val storedResult2 = sharedPreferences.getInt("result_value_2", -1)
+
+        // Display the stored result values if they are valid
+        if (storedResult1 != -1 && storedResult2 != -1) {
+            resultTextView.text = "Results: $storedResult1, $storedResult2"
+        }
+
         // Set click listener for roll button
         rollButton.setOnClickListener {
             rollDice()
         }
     }
+//    override fun onDestroy() {
+//        // Remove the stored result values when the app is closing
+//        sharedPreferences.edit().apply {
+//            remove("result_value_1")
+//            remove("result_value_2")
+//            apply()
+//        }
+//        super.onDestroy()
+//    }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         // Inflate the options menu layout
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -88,6 +105,13 @@ class MainActivity : AppCompatActivity() {
 
         val randomVal1 = (floor(Math.random() * maxVal) + 1).toInt()
         val randomVal2 = (floor(Math.random() * maxVal) + 1).toInt()
+
         resultTextView.text = "Results: $randomVal1, $randomVal2"
+        // Store the result values in SharedPreferences
+        sharedPreferences.edit().apply {
+            putInt("result_value_1", randomVal1)
+            putInt("result_value_2", randomVal2)
+            apply()
+        }
     }
 }
